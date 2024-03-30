@@ -1,0 +1,67 @@
+{
+    "fedora": {
+        "fedora_source": "https://mirrors.tuna.tsinghua.edu.cn/fedora/releases/{ver}/Everything/source/tree/",
+        "fedora": "https://mirrors.tuna.tsinghua.edu.cn/fedora/releases/{ver}/Everything/{arch}/os/",
+        "fedora-modular-source": "https://mirrors.tuna.tsinghua.edu.cn/fedora/releases/{ver}/Modular/source/tree/",
+        "fedora-modular": "https://mirrors.tuna.tsinghua.edu.cn/fedora/releases/{ver}/Modular/{arch}/os/",
+        "updates-source": "https://mirrors.tuna.tsinghua.edu.cn/fedora/updates/{ver}/Everything/source/tree/",
+        "updates": "https://mirrors.tuna.tsinghua.edu.cn/fedora/updates/{ver}/Everything/{arch}/",
+        "updates-modular-source": "https://mirrors.tuna.tsinghua.edu.cn/fedora/updates/{ver}/Modular/source/tree/",
+        "updates-modular": "https://mirrors.tuna.tsinghua.edu.cn/fedora/updates/{ver}/Modular/{arch}/"
+    },
+    "openEuler": {
+        "epol-main": "https://mirrors.tuna.tsinghua.edu.cn/openeuler/{ver}/EPOL/main/{arch}/",
+        "epol-main-source": "https://mirrors.tuna.tsinghua.edu.cn/openeuler/{ver}/EPOL/main/source/",
+        "epol-update": "https://mirrors.tuna.tsinghua.edu.cn/openeuler/{ver}/EPOL/update/main/{arch}/",
+        "epol-update-source": "https://mirrors.tuna.tsinghua.edu.cn/openeuler/{ver}/EPOL/update/main/source/",
+        "os":"https://mirrors.tuna.tsinghua.edu.cn/openeuler/{ver}/OS/{arch}/",
+        "everything": "https://mirrors.tuna.tsinghua.edu.cn/openeuler/{ver}/everything/{arch}/",
+        "source": "https://mirrors.tuna.tsinghua.edu.cn/openeuler/{ver}/source/",
+        "update": "https://mirrors.tuna.tsinghua.edu.cn/openeuler/{ver}/update/{arch}/",
+        "update-source": "https://mirrors.tuna.tsinghua.edu.cn/openeuler/{ver}/update/source/"
+    },
+    "centos": {
+        "centosplus": "https://mirrors.tuna.tsinghua.edu.cn/centos/{ver}/centosplus/{arch}/",
+        "extras": "https://mirrors.tuna.tsinghua.edu.cn/centos/{ver}/extras/{arch}/",
+        "fasttrack": "https://mirrors.tuna.tsinghua.edu.cn/centos/{ver}/fasttrack/{arch}/",
+        "os": "https://mirrors.tuna.tsinghua.edu.cn/centos/{ver}/os/{arch}/",
+        "updates": "https://mirrors.tuna.tsinghua.edu.cn/centos/{ver}/updates/{arch}/"
+    },
+    "openCloudOS": {
+        "AppStream": "https://mirrors.pku.edu.cn/opencloudos/{ver}/AppStream/{arch}/os/",
+        "AppStream-source": "https://mirrors.pku.edu.cn/opencloudos/{ver}/AppStream/source/tree/",
+        "BaseOS": "https://mirrors.pku.edu.cn/opencloudos/{ver}/BaseOS/{arch}/os/",
+        "BaseOS-source": "https://mirrors.pku.edu.cn/opencloudos/{ver}/BaseOS/source/tree/",
+        "Extras": "https://mirrors.pku.edu.cn/opencloudos/{ver}/Extras/{arch}/os/",
+        "Extras-source": "https://mirrors.pku.edu.cn/opencloudos/{ver}/Extras/source/tree/",
+        "HighAvailability": "https://mirrors.pku.edu.cn/opencloudos/{ver}/HighAvailability/{arch}/os/",
+        "HighAvailability-source": "https://mirrors.pku.edu.cn/opencloudos/{ver}/HighAvailability/source/tree/",
+        "PowerTools": "https://mirrors.pku.edu.cn/opencloudos/{ver}/PowerTools/{arch}/os/",
+        "PowerTools-source": "https://mirrors.pku.edu.cn/opencloudos/{ver}/PowerTools/source/tree/",
+        "Minimal": "https://mirrors.pku.edu.cn/opencloudos/{ver}/Minimal/{arch}/os/",
+        "Minimal-source": "https://mirrors.pku.edu.cn/opencloudos/{ver}/Minimal/source/tree/",
+        "Plus": "https://mirrors.pku.edu.cn/opencloudos/{ver}/Plus/{arch}/os/",
+        "Plus-source": "https://mirrors.pku.edu.cn/opencloudos/{ver}/Plus/source/tree/",
+        "ResilientStorage": "https://mirrors.pku.edu.cn/opencloudos/{ver}/ResilientStorage/{arch}/os/",
+        "ResilientStorage-source": "https://mirrors.pku.edu.cn/opencloudos/{ver}/ResilientStorage/source/tree/"
+    },
+    "openSUSE": {
+        "oss": "https://mirrors.pku.edu.cn/opensuse/distribution/{ver}/repo/oss/",
+        "non-oss": "https://mirrors.pku.edu.cn/opensuse/distribution/{ver}/repo/non-oss/",
+        "update": "https://mirrors.pku.edu.cn/opensuse/update/{ver}/"
+    },
+    "anolis": {
+        "AppStream": "https://mirrors.aliyun.com/anolis/{ver}/AppStream/{arch}/os/",
+        "AppStream-source": "https://mirrors.aliyun.com/anolis/{ver}/AppStream/source/",
+        "BaseOS": "https://mirrors.aliyun.com/anolis/{ver}/BaseOS/{arch}/os/",
+        "BaseOS-source": "https://mirrors.aliyun.com/anolis/{ver}/BaseOS/source/",
+        "Extras": "https://mirrors.aliyun.com/anolis/{ver}/Extras/{arch}/os/",
+        "Extras-source": "https://mirrors.aliyun.com/anolis/{ver}/Extras/source/",
+        "DDE": "https://mirrors.aliyun.com/anolis/{ver}/DDE/{arch}/os/",
+        "DDE-source": "https://mirrors.aliyun.com/anolis/{ver}/DDE/source/",
+        "HighAvailability": "https://mirrors.aliyun.com/anolis/{ver}/HighAvailability/{arch}/os/",
+        "HighAvailability-source": "https://mirrors.aliyun.com/anolis/{ver}/HighAvailability/source/",
+        "PowerTools": "https://mirrors.aliyun.com/anolis/{ver}/PowerTools/{arch}/os/",
+        "PowerTools-source": "https://mirrors.aliyun.com/anolis/{ver}/PowerTools/source/"
+    }
+}
