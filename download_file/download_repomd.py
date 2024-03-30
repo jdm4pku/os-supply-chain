@@ -7,7 +7,7 @@ from download_file.remote_file import RemoteFile
 from utils.download import dir_name
 
 
-def download_repo_metadata(url: str, path=None, override=False) -> Tuple[Any, List[Any]]:
+def download_repo_metadata(url: str, path=None, override=False) -> tuple[Any, list[Any]]:
 
     _base_url = url
     if 'repomd.xml' in url:
@@ -21,11 +21,11 @@ def download_repo_metadata(url: str, path=None, override=False) -> Tuple[Any, Li
             os.makedirs(path)
     _repo_path = os.path.join(path, _hash, 'repodata').replace("\\", "/")
     _repomd_url = os.path.join(_base_url, 'repodata', 'repomd.xml').replace("\\", "/")
+    if not os.path.exists(_repo_path):
+        os.makedirs(_repo_path)
 
     _primary, _filelists = None, None
-    with RemoteFile(_repomd_url, path=os.path.join(_repo_path, 'repomd.xml').replace("\\", "/"), override=override,flag=True) as f:
-        if f is None:
-            return None, None
+    with RemoteFile(_repomd_url, path=os.path.join(_repo_path, 'repomd.xml').replace("\\", "/"), override=override) as f:
         _hrefs = re.findall(r'<location href="(.+?)"', f.read().decode('utf-8'))
         for href in _hrefs:
             if href.endswith('primary.xml.gz'):
@@ -34,12 +34,14 @@ def download_repo_metadata(url: str, path=None, override=False) -> Tuple[Any, Li
                 _filelists = href
 
     if not _primary or not _filelists:
-        return None,None
+        os.remove(os.path.join(_repo_path, 'repomd.xml').replace("\\", "/"))
+        raise Exception(
+            "Can't find primary.xml.gz or filelists.xml.gz in {}".format(os.path.join(_repo_path, 'repomd.xml').replace("\\", "/")))
 
     for url in _hrefs:
         if url.endswith('.xml') or url.endswith('.gz') or url.endswith('.xz') or url.endswith('.bz2'):
             try:
-                with RemoteFile(os.path.join(_base_url, url).replace("\\", "/"), path=os.path.join(_repo_path, os.path.basename(url)).replace("\\", "/"), override=override,flag=False) as f:
+                with RemoteFile(os.path.join(_base_url, url).replace("\\", "/"), path=os.path.join(_repo_path, os.path.basename(url)).replace("\\", "/"), override=override) as f:
                     pass
             except requests.HTTPError as e:
                 print(f"Can't download {url}: {e}")
