@@ -11,6 +11,7 @@ print(os.getcwd())
 sys.path.append(os.getcwd())
 import os
 import json
+import numpy as np
 import pandas as pd
 from utils.json import load_file
 from download_file.download_repomd import download_repo_metadata
@@ -20,6 +21,8 @@ from sentence_transformers import SentenceTransformer,util
 from utils.logger import get_logger
 
 logger = get_logger(__name__)
+
+
 
 def save_cluter_result(pkg_name_list,cosine_score,path):
     sum = 0
@@ -41,6 +44,82 @@ def save_cluter_result(pkg_name_list,cosine_score,path):
     average_score = sum / count
     return df_sorted, average_score
 
+def name_simi_score(str1,str2):
+    # 计算编辑距离（Edit Distance）
+    def edit_distance(s1, s2):
+        m, n = len(s1), len(s2)
+        dp = np.zeros((m+1, n+1))
+        
+        for i in range(m+1):
+            for j in range(n+1):
+                if i == 0:
+                    dp[i][j] = j
+                elif j == 0:
+                    dp[i][j] = i
+                elif s1[i-1] == s2[j-1]:
+                    dp[i][j] = dp[i-1][j-1]
+                else:
+                    dp[i][j] = 1 + min(dp[i-1][j],      # 删除
+                                       dp[i][j-1],      # 插入
+                                       dp[i-1][j-1])   # 替换
+        return dp[m][n]
+    
+    # 计算字符串长度
+    len_str1 = len(str1)
+    len_str2 = len(str2)
+    
+    # 计算编辑距离
+    ed = edit_distance(str1, str2)
+    
+    # 计算最大字符串长度
+    max_len = max(len_str1, len_str2)
+    
+    # 计算相似度
+    similarity = 1 - (ed / max_len)
+    
+    return similarity
+
+
+# def jaccard_similarity(pl_i, pl_j):
+#     # 转换列表为集合
+#     set_i = set(pl_i)
+#     set_j = set(pl_j)
+    
+#     # 计算交集和并集
+#     intersection = set_i.intersection(set_j)
+#     union = set_i.union(set_j)
+    
+#     # 计算Jaccard相似度
+#     similarity = len(intersection) / len(union)
+#     return similarity
+
+# 加权 jaccard_similarity
+
+def weighted_jaccard_similarity(dict1,dict2):
+    # 将字典的格式转换为集合格式
+    set_1 = {(elem,eltype)for elem,eltype in dict1.items()}
+    set_2 = {(elem,eltype)for elem,eltype in dict1.items()}
+    # 类型到权重的映射
+    type2weight = {"mandatory":1,"default":0.6,"optional":0.2}
+    intersection_weight = sum(min(type2weight[type_1],type2weight[type_2])
+                       for (elem_1,type_1) in set_1
+                       for (elem_2,type_2) in set_2
+                       if elem_1 == elem_2)
+    union_dict = {}
+    for elem,eltype in set_1:
+        union_dict[elem] = type2weight[eltype]
+    for elem,eltype in set_2:
+        if elem in union_dict:
+            union_dict[elem] = max(union_dict[elem], type2weight[eltype])
+        else:
+            union_dict[elem] = type2weight[eltype]
+    union_weight = sum(union_dict.values())
+    similarity = intersection_weight / union_weight if union_weight else 0
+    return similarity
+
+
+    
+
 
 def save_relevant_result(pkg_name_list,cosine_score,path):
     sum = 0
@@ -59,9 +138,54 @@ def save_relevant_result(pkg_name_list,cosine_score,path):
     average_score = sum / count
     return df_sorted, average_score
 
+def save_difference(all_group_name,desc_cosine_socre,name_edit_simi,pl_jaccard_simi,path):
+    count = 0
+    data = []
+    headers = ["g1","g2","desc_simi","name_simi","pl_simi","total_simi"]
+    desc_average_simi = 0
+    name_average_simi = 0
+    pl_average_simi = 0
+    total_average_simi = 0
+    count = 0
+    for i in range(desc_cosine_socre.shape[0]):
+        for j in range(desc_cosine_socre.shape[1]):
+            total_simi = ((desc_cosine_socre[i][j]+1)/2 + name_edit_simi[i][j] + pl_jaccard_simi[i][j]) / 3
+            desc_average_simi +=desc_cosine_socre[i][j]
+            name_average_simi +=name_edit_simi[i][j]
+            pl_average_simi +=pl_jaccard_simi[i][j]
+            total_average_simi +=total_simi
+            row = []
+            row.append(all_group_name[i])
+            row.append(all_group_name[j])
+            row.append(desc_cosine_socre[i][j])
+            row.append(name_edit_simi[i][j])
+            row.append(pl_jaccard_simi[i][j])
+            row.append(total_simi[i][j])
+            count +=1
+    df = pd.DataFrame(data,columns=headers)
+    df_sorted = df.sort_values(by='total_simi',ascending=False)
+    df_sorted.to_csv(path,index=False)
+    desc_average_simi /=count
+    name_average_simi /=count
+    pl_average_simi /=count
+    total_average_simi /=count
+    return df_sorted, desc_average_simi,name_average_simi,pl_average_simi,total_average_simi
+
+def count_pkgnum_eachgroup(all_groups):
+    print(f"group num:{len(all_groups)}")
+    pkg_group = {}
+    for item in all_groups.values():
+        pkg_num = len(item['packagelist'])
+        if pkg_num in pkg_group:
+            pkg_group[pkg_num] +=1
+        else:
+            pkg_group[pkg_num] = 1
+    pkg_group_sorted = dict(sorted(pkg_group.items()))
+    logger.info(pkg_group_sorted)   
+
 def RQ2(os_arch_ver,override=False):
     metas = load_file('./os_urls.json')
-    model = SentenceTransformer("all-MiniLM-L6-v2",device="cuda:1")
+    model = SentenceTransformer("all-MiniLM-L6-v2")
     for os_name,os_arch,os_ver in os_arch_ver:
         logger.info(f"-------{os_name}-{os_arch}-{os_ver}------")
         all_groups = None
@@ -112,20 +236,45 @@ def RQ2(os_arch_ver,override=False):
             relevant_result[group] = average_socre
         relevant_result_path = f"results/RQ2/1-relevant/{os_name}_{os_arch}_{os_ver}/result.json"
         with open(relevant_result_path,'w') as f:
-            json.dump(relevant_result,indent=4)
+            json.dump(relevant_result,f,indent=4)
         
         # 第三问
-        
-
-
-            
-        
-        
-
-            
-                
-            
-        print("hello")
+        all_group_desc = [info["description"] for group,info in all_groups]
+        all_group_name = [info["name"][0] for group,info in all_groups]
+        all_group_pkglist = [info["packagelist"] for group,info in all_groups]
+        group_desc_embed = model.encode(all_group_desc,convert_to_tensor=True)
+        # 范围是[-1,1]
+        desc_cosine_socre = util.cos_sim(group_desc_embed,group_desc_embed)
+        # 范围是[0,1]
+        name_edit_simi = []
+        for i,g1 in enumerate(all_group_name):
+            for j,g2 in enumerate(all_group_name):
+                similarity = name_simi_score(g1, g2)
+                name_edit_simi.append({"index": [i, j], "score": similarity})
+        # 范围是[0,1]
+        pl_jaccard_simi = []
+        for i,pl1 in enumerate(all_group_pkglist):
+            for j,pl2 in enumerate(all_group_pkglist):
+                similarity = weighted_jaccard_similarity(pl1,pl2)
+                pl_jaccard_simi.append({"index": [i, j], "score": similarity})
+        difference_path = f"results/RQ2/2-difference/{os_name}_{os_arch}_{os_ver}/result.csv"
+        diff_result,desc_aver,name_aver,pl_aver,total_aver = save_difference(all_group_name,desc_cosine_socre,name_edit_simi,pl_jaccard_simi,difference_path)
+        logger.info(diff_result.head(5))
+        logger.info(f"desc_aver_socre:{desc_aver}")
+        logger.info(f"name_aver_socre:{name_aver}")
+        logger.info(f"pl_aver_socre:{pl_aver}")
+        logger.info(f"total_aver_socre:{total_aver}")
+        total_difference_result = {}
+        total_difference_path = f"results/RQ2/2-difference/{os_name}_{os_arch}_{os_ver}/result.json"
+        total_difference_result["desc_aver_score"] = desc_aver
+        total_difference_result["name_aver_score"] = name_aver
+        total_difference_result["pkglist_aver_score"] = pl_aver
+        total_difference_result["total_aver_score"] = total_aver
+        with open(total_difference_path,'w') as f:
+            json.dump(total_difference_result,f,indent=4)
+        # 第四问
+        count_pkgnum_eachgroup(all_groups)
+        pass
 
 
 if __name__=="__main__":
