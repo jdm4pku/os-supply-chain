@@ -1,3 +1,5 @@
 pandas
 xmltodict
 requests
+bertopic
+matplot
