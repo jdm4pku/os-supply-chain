@@ -111,12 +111,12 @@ def get_groups_info(xml_file):
     xml_root = XMLParser.parsefile(xml_file)
     if xml_root is None:
         return None, None, None, None
-    if 'comps' in xml_root and type(xml_root['comps']) is dict:
-        print(xml_root['comps'].keys())
-        for ks in xml_root['comps'].keys():
-            print(ks, ": ", len(xml_root['comps'][ks]))
-    else:
-        return None, None, None, None
+    # if 'comps' in xml_root and type(xml_root['comps']) is dict:
+    #     print(xml_root['comps'].keys())
+    #     for ks in xml_root['comps'].keys():
+    #         print(ks, ": ", len(xml_root['comps'][ks]))
+    # else:
+    #     return None, None, None, None
     os_groups, os_cate, os_env, os_langp = None, None, None, None
     if 'group' in xml_root['comps']:
         os_groups = {}
@@ -200,15 +200,15 @@ def get_os_groups(os_arch_ver,override=False):
     metas = load_file('./os_urls.json')
     for os_name,os_arch,os_ver in os_arch_ver:
         all_groups = None
+        save_path = f"./format/group/eachOS/{os_name}_{os_arch}_{os_ver}"
         for os_k,os_url in metas[os_name].items():
             os_path,os_files =download_repo_metadata(os_url.format(arch=os_arch, ver=os_ver), "./data/", override)
             group_file = __repomd_get_group_file(os_path)
             if group_file:
                 os_groups, os_cate, os_env, os_langp = get_groups_info(os.path.join(os_path, group_file).replace('\\', '/'))
-                os_path = f"./format/group/eachOS/{os_name}_{os_arch}_{os_ver}"
-                save_groups(os_groups,os_path,os_k)
+                save_groups(os_groups,save_path,os_k)
                 all_groups = merge_groups(all_groups,os_groups)
-        save_groups(all_groups,os_path,"merge")
+        save_groups(all_groups,save_path,"merge")
 
 
 if __name__=="__main__":
