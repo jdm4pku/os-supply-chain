@@ -108,18 +108,18 @@ def get_os_pkgs(os_versions,override):
     metas = load_file('./os_urls.json')
     for os_name,os_arch,os_ver in os_versions:
         all_pkgs = None
+        save_path = f"./format/pkg/eachOS/{os_name}_{os_arch}_{os_ver}"
         for os_k, os_url in metas[os_name].items():
             os_path,os_files = download_repo_metadata(os_url.format(arch=os_arch, ver=os_ver), "./data/", override)
             primary_file = __repomd_get_primary_file(os_path)
             if primary_file:
                 print(os_k,"=======YES========")
                 os_pkgs = get_pkgs_info(os.path.join(os_path, primary_file).replace('\\', '/'))
-                os_path = f"./format/pkg/eachOS/{os_name}_{os_arch}_{os_ver}"
-                save_pkgs(os_pkgs,os_path,os_k)
+                save_pkgs(os_pkgs,save_path,os_k)
                 all_pkgs = merge_pkgs(all_pkgs,os_pkgs)
             else:
                 print(os_k, "=======NO========")
-        save_pkgs(all_pkgs,os_path,"merge")
+        save_pkgs(all_pkgs,save_path,"merge")
 
 
 
