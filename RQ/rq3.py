@@ -13,20 +13,20 @@ from pkg.pkg import __repomd_get_primary_file,get_pkgs_info,merge_pkgs
 from bertopic import BERTopic
 from sentence_transformers import SentenceTransformer
 from bertopic.representation import KeyBERTInspired, MaximalMarginalRelevance, TextGeneration
-from huggingface_hub import notebook_login
+from huggingface_hub import login
 import transformers
 from umap import UMAP
 from hdbscan import HDBSCAN
 from torch import bfloat16
 
-
+# login()
 logger = get_logger(__name__)
 
 def get_bert_topic(sentences):
     topic_model = BERTopic(language="english", calculate_probabilities=False, verbose=True)
     topics, probs = topic_model.fit_transform(sentences)
     freq = topic_model.get_topic_info()
-    logger.info(freq.head(5))
+    logger.info(freq)
     logger.info(topic_model.get_topic(0))
     fig = topic_model.visualize_topics()
     return fig
@@ -166,17 +166,19 @@ def RQ3(os_arch_ver,override=False):
                     desc_not_in_group.append(info["description"])
         fig_in_group = get_bert_topic(desc_in_group)
         fig_not_in_group = get_bert_topic(desc_not_in_group)
-        llmfig_in_group = get_bert_llama_topic(desc_in_group)
-        llmfig_not_in_group = get_bert_llama_topic(desc_not_in_group)
+        # llmfig_in_group = get_bert_llama_topic(desc_in_group)
+        # llmfig_not_in_group = get_bert_llama_topic(desc_not_in_group)
         dir_path = f"results/RQ3/{os_name}_{os_arch}_{os_ver}"
+        if not os.path.exists(dir_path):
+                os.mkdir(dir_path)
         fig_in_group_path = os.path.join(dir_path,"fig_in_group.png")
         fig_not_in_group_path = os.path.join(dir_path,"fig_not_in_group.png")
-        llmfig_in_group_path = os.path.join(dir_path,"llmfig_in_group.png")
-        llmfig_not_in_group_path = os.path.join(dir_path,"llmfig_not_in_group.png")
+        # llmfig_in_group_path = os.path.join(dir_path,"llmfig_in_group.png")
+        # llmfig_not_in_group_path = os.path.join(dir_path,"llmfig_not_in_group.png")
         fig_in_group.write_image(fig_in_group_path)
         fig_not_in_group.write_image(fig_not_in_group_path)
-        llmfig_in_group.write_image(llmfig_in_group_path)
-        llmfig_not_in_group.write_image(llmfig_not_in_group_path)
+        # llmfig_in_group.write_image(llmfig_in_group_path)
+        # llmfig_not_in_group.write_image(llmfig_not_in_group_path)
 
         
             
