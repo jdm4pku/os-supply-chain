@@ -3,3 +3,7 @@ xmltodict
 requests
 bertopic
 matplot
+bertopic
+Plotly
+bitsandbytes
+kaleido

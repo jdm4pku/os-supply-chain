@@ -92,7 +92,7 @@ def weighted_jaccard_similarity(dict1,dict2):
     set_1 = {(elem,eltype)for elem,eltype in dict1.items()}
     set_2 = {(elem,eltype)for elem,eltype in dict2.items()}
     # 类型到权重的映射
-    type2weight = {"mandatory":1,"default":0.7,"conditional":0.4,"optional":0.1}
+    type2weight = {"mandatory":1,"default":0.9,"conditional":0.7,"optional":0.5}
     intersection_weight = sum(min(type2weight[type_1],type2weight[type_2])
                        for (elem_1,type_1) in set_1
                        for (elem_2,type_2) in set_2
@@ -108,10 +108,6 @@ def weighted_jaccard_similarity(dict1,dict2):
     union_weight = sum(union_dict.values())
     similarity = intersection_weight / union_weight if union_weight else 0
     return similarity
-
-
-    
-
 
 def save_relevant_result(pkg_name_list,cosine_score,path):
     sum = 0
@@ -178,7 +174,7 @@ def count_pkgnum_eachgroup(all_groups):
 
 def RQ2(os_arch_ver,override=False):
     metas = load_file('./os_urls.json')
-    # model = SentenceTransformer("all-MiniLM-L6-v2")
+    model = SentenceTransformer("all-MiniLM-L6-v2")
     for os_name,os_arch,os_ver in os_arch_ver:
         logger.info(f"-------{os_name}-{os_arch}-{os_ver}------")
         all_groups = None
@@ -257,56 +253,56 @@ def RQ2(os_arch_ver,override=False):
         # with open(relevant_result_path,'w') as f:
         #     json.dump(relevant_result,f,indent=4)
         # 第三问
-        # logger.info("------------RQ2:differnce----------------")
-        # all_group_desc = [info["description"] for group,info in all_groups.items()]
-        # all_group_name = [info["name"][0] for group,info in all_groups.items()]
-        # all_group_pkglist = [info["packagelist"] for group,info in all_groups.items()]
-        # group_desc_embed = model.encode(all_group_desc,convert_to_tensor=True)
-        # # # # 范围是[-1,1]
-        # desc_cosine_socre = util.cos_sim(group_desc_embed,group_desc_embed)
-        # desc_cosine_socre = desc_cosine_socre.cpu().detach().numpy()
-        # # # 范围是[0,1]
-        # name_edit_simi = []
-        # for i,g1 in enumerate(all_group_name):
-        #     row = []
-        #     for j,g2 in enumerate(all_group_name):
-        #         similarity = name_simi_score(g1, g2)
-        #         row.append(similarity)
-        #     name_edit_simi.append(row)
+        logger.info("------------RQ2:differnce----------------")
+        all_group_desc = [info["description"] for group,info in all_groups.items()]
+        all_group_name = [info["name"][0] for group,info in all_groups.items()]
+        all_group_pkglist = [info["packagelist"] for group,info in all_groups.items()]
+        group_desc_embed = model.encode(all_group_desc,convert_to_tensor=True)
+        # # # 范围是[-1,1]
+        desc_cosine_socre = util.cos_sim(group_desc_embed,group_desc_embed)
+        desc_cosine_socre = desc_cosine_socre.cpu().detach().numpy()
         # # 范围是[0,1]
-        # pl_jaccard_simi = []
-        # for g1 in all_group_pkglist:
-        #     row = []
-        #     for g2 in all_group_pkglist:
-        #         similarity = weighted_jaccard_similarity(g1,g2)
-        #         row.append(similarity)
-        #     pl_jaccard_simi.append(row)
-        # difference_path = f"results/RQ2/2-difference/{os_name}_{os_arch}_{os_ver}"
-        # if not os.path.exists(difference_path):
-        #         os.mkdir(difference_path)
-        # difference_path = os.path.join(difference_path,"result.csv")
-        # diff_result,desc_aver,name_aver,pl_aver,total_aver = save_difference(all_group_name,desc_cosine_socre,name_edit_simi,pl_jaccard_simi,difference_path)
-        # logger.info(diff_result.head(5))
-        # logger.info(f"desc_aver_socre:{desc_aver}")
-        # logger.info(f"name_aver_socre:{name_aver}")
-        # logger.info(f"pl_aver_socre:{pl_aver}")
-        # logger.info(f"total_aver_socre:{total_aver}")
-        # total_difference_result = {}
-        # total_difference_path = f"results/RQ2/2-difference/{os_name}_{os_arch}_{os_ver}/result.json"
-        # total_difference_result["desc_aver_score"] = desc_aver
-        # total_difference_result["name_aver_score"] = name_aver
-        # total_difference_result["pkglist_aver_score"] = pl_aver
-        # total_difference_result["total_aver_score"] = total_aver
-        # with open(total_difference_path,'w') as f:
-        #     json.dump(total_difference_result,f,indent=4)
-        logger.info("------------RQ2:distribution----------------")
-        distribute_result = count_pkgnum_eachgroup(all_groups)
-        distribution_path = f"results/RQ2/4-distribution/{os_name}_{os_arch}_{os_ver}"
-        if not os.path.exists(distribution_path):
-                os.mkdir(distribution_path)
-        distribution_path = os.path.join(distribution_path,"result.json")
-        with open(distribution_path,'w') as f:
-            json.dump(distribute_result,f,indent=4)
+        name_edit_simi = []
+        for i,g1 in enumerate(all_group_name):
+            row = []
+            for j,g2 in enumerate(all_group_name):
+                similarity = name_simi_score(g1, g2)
+                row.append(similarity)
+            name_edit_simi.append(row)
+        # 范围是[0,1]
+        pl_jaccard_simi = []
+        for g1 in all_group_pkglist:
+            row = []
+            for g2 in all_group_pkglist:
+                similarity = weighted_jaccard_similarity(g1,g2)
+                row.append(similarity)
+            pl_jaccard_simi.append(row)
+        difference_path = f"results/RQ2/2-difference/{os_name}_{os_arch}_{os_ver}"
+        if not os.path.exists(difference_path):
+                os.mkdir(difference_path)
+        difference_path = os.path.join(difference_path,"result.csv")
+        diff_result,desc_aver,name_aver,pl_aver,total_aver = save_difference(all_group_name,desc_cosine_socre,name_edit_simi,pl_jaccard_simi,difference_path)
+        logger.info(diff_result.head(5))
+        logger.info(f"desc_aver_socre:{desc_aver}")
+        logger.info(f"name_aver_socre:{name_aver}")
+        logger.info(f"pl_aver_socre:{pl_aver}")
+        logger.info(f"total_aver_socre:{total_aver}")
+        total_difference_result = {}
+        total_difference_path = f"results/RQ2/2-difference/{os_name}_{os_arch}_{os_ver}/result.json"
+        total_difference_result["desc_aver_score"] = desc_aver
+        total_difference_result["name_aver_score"] = name_aver
+        total_difference_result["pkglist_aver_score"] = pl_aver
+        total_difference_result["total_aver_score"] = total_aver
+        with open(total_difference_path,'w') as f:
+            json.dump(total_difference_result,f,indent=4)
+        # logger.info("------------RQ2:distribution----------------")
+        # distribute_result = count_pkgnum_eachgroup(all_groups)
+        # distribution_path = f"results/RQ2/4-distribution/{os_name}_{os_arch}_{os_ver}"
+        # if not os.path.exists(distribution_path):
+        #         os.mkdir(distribution_path)
+        # distribution_path = os.path.join(distribution_path,"result.json")
+        # with open(distribution_path,'w') as f:
+        #     json.dump(distribute_result,f,indent=4)
 
 
 if __name__=="__main__":
