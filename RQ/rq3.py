@@ -1,5 +1,5 @@
 """
-对组内的pkg和组外的pkg进行主题建模, 利用了Llama大语言模型，
+对组内的pkg和组外的pkg进行主题建模, 利用了Llama 2大语言模型，
 """
 import os,sys
 print(os.getcwd())
@@ -32,7 +32,7 @@ def get_bert_topic(sentences):
     return fig
 
 
-def get_bert_llama_topic(sentences):
+def get_bert_llama_topic(titles,sentences):
     model_id = 'meta-llama/Llama-2-7b-chat-hf'
     device = f'cuda:0'
     bnb_config = transformers.BitsAndBytesConfig(
@@ -125,7 +125,7 @@ def get_bert_llama_topic(sentences):
     logger.info(topic_model.get_topic(1, full=True)["KeyBERT"])
     llama2_labels = [label[0][0].split("\n")[0] for label in topic_model.get_topics(full=True)["Llama2"].values()]
     topic_model.set_topic_labels(llama2_labels)
-    fig = topic_model.visualize_documents(reduced_embeddings)
+    fig = topic_model.visualize_documents(titles, reduced_embeddings=reduced_embeddings, hide_annotations=True, hide_document_hover=False, custom_labels=True)
     return fig
 
 
@@ -156,29 +156,33 @@ def RQ3(os_arch_ver,override=False):
             for pkg in info["packagelist"]:
                 pkg_in_group.append(pkg)
         desc_in_group = []
+        name_in_group = []
         desc_not_in_group = []
+        name_not_in_group = []
         for pkg,info in all_pkgs.items():
             if pkg in pkg_in_group:
                 if info["description"] is not None:
+                    name_in_group.append(pkg)
                     desc_in_group.append(info["description"])
             else:
                 if info["description"] is not None:
+                    name_not_in_group.append(pkg)
                     desc_not_in_group.append(info["description"])
-        fig_in_group = get_bert_topic(desc_in_group)
-        fig_not_in_group = get_bert_topic(desc_not_in_group)
-        # llmfig_in_group = get_bert_llama_topic(desc_in_group)
-        # llmfig_not_in_group = get_bert_llama_topic(desc_not_in_group)
+        # fig_in_group = get_bert_topic(desc_in_group)
+        # fig_not_in_group = get_bert_topic(desc_not_in_group)
+        llmfig_in_group = get_bert_llama_topic(name_in_group,desc_in_group)
+        llmfig_not_in_group = get_bert_llama_topic(name_not_in_group,desc_not_in_group)
         dir_path = f"results/RQ3/{os_name}_{os_arch}_{os_ver}"
         if not os.path.exists(dir_path):
                 os.mkdir(dir_path)
-        fig_in_group_path = os.path.join(dir_path,"fig_in_group.png")
-        fig_not_in_group_path = os.path.join(dir_path,"fig_not_in_group.png")
-        # llmfig_in_group_path = os.path.join(dir_path,"llmfig_in_group.png")
-        # llmfig_not_in_group_path = os.path.join(dir_path,"llmfig_not_in_group.png")
-        fig_in_group.write_image(fig_in_group_path)
-        fig_not_in_group.write_image(fig_not_in_group_path)
-        # llmfig_in_group.write_image(llmfig_in_group_path)
-        # llmfig_not_in_group.write_image(llmfig_not_in_group_path)
+        # fig_in_group_path = os.path.join(dir_path,"fig_in_group.png")
+        # fig_not_in_group_path = os.path.join(dir_path,"fig_not_in_group.png")
+        llmfig_in_group_path = os.path.join(dir_path,"llmfig_in_group.png")
+        llmfig_not_in_group_path = os.path.join(dir_path,"llmfig_not_in_group.png")
+        # fig_in_group.write_image(fig_in_group_path)
+        # fig_not_in_group.write_image(fig_not_in_group_path)
+        llmfig_in_group.write_image(llmfig_in_group_path)
+        llmfig_not_in_group.write_image(llmfig_not_in_group_path)
 
         
             
