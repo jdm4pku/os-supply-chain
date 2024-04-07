@@ -11,7 +11,7 @@ def plot_box(os_version):
         for os_name,os_arch,os_ver in os_version:
             dir_path = os.path.join(root_path,f"{os_name}_{os_arch}_{os_ver}")
             data_path = os.path.join(dir_path,"result.json")
-            fig_path = os.path.join(dir_path,"result.png")
+            fig_path = os.path.join(dir_path,"result_box.png")
             with open(data_path, 'r') as f:
                 data = json.load(f)
             # 提取评分数据
