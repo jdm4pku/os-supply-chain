@@ -174,7 +174,7 @@ def count_pkgnum_eachgroup(all_groups):
 
 def RQ2(os_arch_ver,override=False):
     metas = load_file('./os_urls.json')
-    model = SentenceTransformer("all-MiniLM-L6-v2")
+    # model = SentenceTransformer("all-MiniLM-L6-v2",device="cuda:5")
     for os_name,os_arch,os_ver in os_arch_ver:
         logger.info(f"-------{os_name}-{os_arch}-{os_ver}------")
         all_groups = None
@@ -191,8 +191,8 @@ def RQ2(os_arch_ver,override=False):
             if primary_file:
                 os_pkgs = get_pkgs_info(os.path.join(os_path, primary_file).replace('\\', '/'))
                 all_pkgs = merge_pkgs(all_pkgs,os_pkgs)
-        # logger.info("------------RQ2:cluster----------------")
-        # # 第一问
+        logger.info("------------RQ2:cluster----------------")
+        # 第一问
         # cluster_result = {}
         # for group, info in all_groups.items():
         #     pkg_name_list = info["packagelist"]
@@ -206,6 +206,8 @@ def RQ2(os_arch_ver,override=False):
         #         else:
         #             pkg_desc_list.append(all_pkgs[name]["description"])
         #             new_pkg_name_list.append(name)
+        #     if len(new_pkg_name_list)==0:
+        #         continue
         #     embeddings = model.encode(pkg_desc_list,convert_to_tensor=True)
         #     cosine_score = util.cos_sim(embeddings,embeddings)
         #     cosine_score = cosine_score.cpu().detach().numpy()
@@ -236,8 +238,13 @@ def RQ2(os_arch_ver,override=False):
         #         else:
         #             pkg_desc_list.append(all_pkgs[name]["description"])
         #             new_pkg_name_list.append(name)
+        #     if len(new_pkg_name_list)==0:
+        #         relevant_result[group] = 0
+        #         continue
         #     embed1 = model.encode(group_label,convert_to_tensor=True)
         #     embed2 = model.encode(pkg_desc_list,convert_to_tensor=True)
+        #     logger.info(embed1.device)
+        #     logger.info(embed2.device)
         #     cosine_score = util.cos_sim(embed1,embed2)
         #     cosine_score = cosine_score.cpu().detach().numpy()
         #     relevant_path = f"results/RQ2/1-relevant/{os_name}_{os_arch}_{os_ver}"
@@ -307,7 +314,8 @@ def RQ2(os_arch_ver,override=False):
 
 if __name__=="__main__":
     os_versions = [
-        ("fedora", "x86_64", "38"),
-        ('fedora', 'aarch64', '38'),
+        # ("fedora", "x86_64", "38"),
+        # ('fedora', 'aarch64', '38'),
+        ('centos', 'x86_64', '7'),
     ]
     RQ2(os_versions,False)

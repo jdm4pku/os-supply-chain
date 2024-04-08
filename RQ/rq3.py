@@ -92,7 +92,7 @@ def get_bert_llama_topic(titles,sentences):
     embedding_model = SentenceTransformer("BAAI/bge-small-en")
     embeddings = embedding_model.encode(sentences, show_progress_bar=True)
     umap_model = UMAP(n_neighbors=15, n_components=5, min_dist=0.0, metric='cosine', random_state=42)
-    hdbscan_model = HDBSCAN(min_cluster_size=150, metric='euclidean', cluster_selection_method='eom', prediction_data=True)
+    hdbscan_model = HDBSCAN(min_cluster_size=50, metric='euclidean', cluster_selection_method='eom', prediction_data=True)
     # Pre-reduce embeddings for visualization purposes
     reduced_embeddings = UMAP(n_neighbors=15, n_components=2, min_dist=0.0, metric='cosine', random_state=42).fit_transform(embeddings)
     # KeyBERT
@@ -121,6 +121,7 @@ def get_bert_llama_topic(titles,sentences):
     topics, probs = topic_model.fit_transform(sentences, embeddings)
     # Show topics
     freq = topic_model.get_topic_info()
+    logger.info(freq)
     logger.info(freq.head(5))
     logger.info(topic_model.get_topic(1, full=True)["KeyBERT"])
     llama2_labels = [label[0][0].split("\n")[0] for label in topic_model.get_topics(full=True)["Llama2"].values()]
