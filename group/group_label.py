@@ -213,8 +213,9 @@ def get_os_groups(os_arch_ver,override=False):
 
 if __name__=="__main__":
     os_versions = [
-        ("fedora", "x86_64", "38"),
-        ('fedora', 'aarch64', '38'),
+        # ("fedora", "x86_64", "38"),
+        # ('fedora', 'aarch64', '38'),
+        ('centos', 'x86_64', '7'),
     ]
     get_os_groups(os_versions,True)
     pass
