@@ -35,5 +35,6 @@ if __name__=="__main__":
     os_versions = [
         ("fedora", "x86_64", "38"),
         ('fedora', 'aarch64', '38'),
+        ('centos', 'x86_64', '7'),
     ]
     plot_bar(os_versions)
