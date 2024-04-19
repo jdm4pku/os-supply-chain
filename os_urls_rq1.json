@@ -1,0 +1,40 @@
+{
+    "fedora1": { 
+        "release-server-os":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Server/{arch}/os/",
+        "release-server-debug-tree":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Server/{arch}/debug/tree/",
+        "release-server-source-tree":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Server/source/tree/",
+        "release-Modular-os":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Modular/{arch}/os/",
+        "release-Modular-debug-tree":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Modular/{arch}/debug/tree/",
+        "release-Modular-source-tree":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Modular/source/tree/",
+        "release-Everything-os":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Everything/{arch}/os/",
+        "release-Everything-debug-tree":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Everything/{arch}/debug/tree/",
+        "release-Everything-source-tree":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Everything/source/tree/",
+        "update-Modular-source":"https://archives.fedoraproject.org/pub/fedora/linux/updates/{ver}/Modular/source/",
+        "update-Modular-source-tree":"https://archives.fedoraproject.org/pub/fedora/linux/updates/{ver}/Modular/source/tree/",
+        "update-Modular":"https://archives.fedoraproject.org/pub/fedora/linux/updates/{ver}/Modular/{arch}/",
+        "update-Modular-debug":"https://archives.fedoraproject.org/pub/fedora/linux/updates/{ver}/Modular/{arch}/debug/",
+        "update-Everything-source":"https://archives.fedoraproject.org/pub/fedora/linux/updates/{ver}/Everything/source/",
+        "update-Everything-source-tree":"https://archives.fedoraproject.org/pub/fedora/linux/updates/{ver}/Everything/source/tree/",
+        "update-Everything":"https://archives.fedoraproject.org/pub/fedora/linux/updates/{ver}/Everything/{arch}/",
+        "update-Everything-debug":"https://archives.fedoraproject.org/pub/fedora/linux/updates/{ver}/Everything/{arch}/debug/"
+    },
+    "fedora2":{
+        "release-server-os":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Server/{arch}/os/",
+        "release-server-debug-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Server/{arch}/debug/tree/",
+        "release-server-source-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Server/source/tree/",
+        "release-Modular-os":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Modular/{arch}/os/",
+        "release-Modular-debug-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Modular/{arch}/debug/tree/",
+        "release-Modular-source-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Modular/source/tree/",
+        "release-Everything-os":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Everything/{arch}/os/",
+        "release-Everything-debug-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Everything/{arch}/debug/tree/",
+        "release-Everything-source-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Everything/source/tree/",
+        "update-Modular-source":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Modular/source/",
+        "update-Modular-source-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Modular/source/tree/",
+        "update-Modular":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Modular/{arch}/",
+        "update-Modular-debug":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Modular/{arch}/debug/",
+        "update-Everything-source":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Everything/source/",
+        "update-Everything-source-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Everything/source/tree/",
+        "update-Everything":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Everything/{arch}/",
+        "update-Everything-debug":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Everything/{arch}/debug/"
+    }
+}
