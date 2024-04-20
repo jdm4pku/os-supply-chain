@@ -26,6 +26,8 @@ def download_repo_metadata(url: str, path=None, override=False) -> tuple[Any, li
 
     _primary, _filelists = None, None
     with RemoteFile(_repomd_url, path=os.path.join(_repo_path, 'repomd.xml').replace("\\", "/"), override=override) as f:
+        if f==None:
+            return None,None
         _hrefs = re.findall(r'<location href="(.+?)"', f.read().decode('utf-8'))
         for href in _hrefs:
             if href.endswith('primary.xml.gz'):
