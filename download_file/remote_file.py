@@ -16,6 +16,15 @@ class RemoteFile:
             return self.f
         self.f = open(self.path, 'wb+')
         # print(f"Downloading {self.url} to {self.path}...")
+        try:
+            response = requests.head(self.url)
+            if response.status_code == 404:
+                print(f"URL does not exist: {self.url}")
+                return None
+        except requests.RequestException as e:
+            print(f"{self.url}")
+            print(f"An error occurred while checking the URL: {e}")
+            return None
         with requests.get(self.url, stream=True) as r:
             r.raise_for_status()
             for chunk in r.iter_content(chunk_size=self.chunksize):
