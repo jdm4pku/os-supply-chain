@@ -36,5 +36,11 @@
         "update-Everything-source-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Everything/source/tree/",
         "update-Everything":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Everything/{arch}/",
         "update-Everything-debug":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Everything/{arch}/debug/"
+    },
+    "fedora3":{
+        "Everything-os":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Everything/{arch}/os/",
+        "Everything-source-SRPMS":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Everything/source/SRPMS/",
+        "Everything-debug":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/10/Everything/x86_64/debug/",
+        "fedora-os":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Fedora/{arch}/os/"
     }
 }

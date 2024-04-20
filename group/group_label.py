@@ -77,7 +77,10 @@ def __get_group_packs(pack_dict):
         return pack_ret
     if type(pack_dict["packagereq"]) is list:
         for pack_i in pack_dict["packagereq"]:
-            pack_ret[pack_i['#text']] = pack_i['@type']
+            if '#text' in pack_i:
+                pack_ret[pack_i['#text']] = pack_i['@type']
+            else:
+                pack_ret[pack_i] = "mandory"
         return pack_ret
     print("==========packagereq value error==========")
     print(pack_dict["packagereq"])
@@ -130,11 +133,13 @@ def get_groups_info(xml_file):
             print(xml_root['comps']['group'])
         for i in gslist:
             group_contend = {}
-            group_contend['default'] = i['default']
+            # print(i)
+            # print("------------------------")
+            group_contend['default'] = i['default'] if 'default' in i else "unknown"
             group_contend['description'] = __get_descrip(i['description'])
-            group_contend['name'] = __get_name(i['name'])
+            group_contend['name'] = __get_name(i['name']) 
             group_contend['packagelist'] = __get_group_packs(i['packagelist'])
-            group_contend['uservisible'] = i['uservisible']
+            group_contend['uservisible'] = i['uservisible'] if 'uservisible' in i else "unknown"
             os_groups[group_contend['name'][0]] = group_contend
     if 'category' in xml_root['comps']:
         os_cate = {}

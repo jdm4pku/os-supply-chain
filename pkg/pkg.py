@@ -43,13 +43,13 @@ def get_pkgs_info(xml_file):
             pkg_content['size_@installed'] = i['size']['@installed']
             pkg_content['size_@archive'] = i['size']['@archive']
             pkg_content['location_@href'] = i['location']['@href']
-            pkg_content['format_rpm:license'] = i['format']['rpm:license']
-            pkg_content['format_rpm:vendor'] = i['format']['rpm:vendor']
-            pkg_content['format_rpm:group'] = i['format']['rpm:group']
-            pkg_content['format_rpm:buildhost'] = i['format']['rpm:buildhost']
-            pkg_content['format_rpm:sourcerpm'] = i['format']['rpm:sourcerpm']
-            pkg_content['format_rpm:header-range_@start'] = i['format']['rpm:header-range']['@start']
-            pkg_content['format_rpm:header-range_@end'] = i['format']['rpm:header-range']['@end']
+            # pkg_content['format_rpm:license'] = i['format']['rpm:license']
+            # pkg_content['format_rpm:vendor'] = i['format']['rpm:vendor']
+            # pkg_content['format_rpm:group'] = i['format']['rpm:group']
+            # pkg_content['format_rpm:buildhost'] = i['format']['rpm:buildhost']
+            # pkg_content['format_rpm:sourcerpm'] = i['format']['rpm:sourcerpm']
+            # pkg_content['format_rpm:header-range_@start'] = i['format']['rpm:header-range']['@start']
+            # pkg_content['format_rpm:header-range_@end'] = i['format']['rpm:header-range']['@end']
             os_pkgs[pkg_content['name']] = pkg_content
         return os_pkgs
 
@@ -57,7 +57,8 @@ def save_pkgs(os_pkgs,os_path,os_k):
     if not os.path.exists(os_path):
         os.mkdir(os_path)
     pkg_path = os.path.join(os_path,f"{os_k}.csv")
-    headers = ['@type','name','arch','version_@epoch','version_@ver','version_@rel','checksum_@pkgid','summary','description','packager','url','time_@file','time_@build','size_@package','size_@installed','size_@archive','location_@href','format_rpm:license','format_rpm:vendor','format_rpm:group','format_rpm:buildhost','format_rpm:sourcerpm','format_rpm:header-range_@start','format_rpm:header-range_@end']
+    # headers = ['@type','name','arch','version_@epoch','version_@ver','version_@rel','checksum_@pkgid','summary','description','packager','url','time_@file','time_@build','size_@package','size_@installed','size_@archive','location_@href','format_rpm:license','format_rpm:vendor','format_rpm:group','format_rpm:buildhost','format_rpm:sourcerpm','format_rpm:header-range_@start','format_rpm:header-range_@end']
+    headers = ['@type','name','arch','version_@epoch','version_@ver','version_@rel','checksum_@pkgid','summary','description','packager','url','time_@file','time_@build','size_@package','size_@installed','size_@archive','location_@href']
     data = []
     if os_pkgs==None:
         return
@@ -80,13 +81,13 @@ def save_pkgs(os_pkgs,os_path,os_k):
         row.append(item['size_@installed'])
         row.append(item['size_@archive'])
         row.append(item['location_@href'])
-        row.append(item['format_rpm:license'])
-        row.append(item['format_rpm:vendor'])
-        row.append(item['format_rpm:group'])
-        row.append(item['format_rpm:buildhost'])
-        row.append(item['format_rpm:sourcerpm'])
-        row.append(item['format_rpm:header-range_@start'])
-        row.append(item['format_rpm:header-range_@end'])
+        # row.append(item['format_rpm:license'])
+        # row.append(item['format_rpm:vendor'])
+        # row.append(item['format_rpm:group'])
+        # row.append(item['format_rpm:buildhost'])
+        # row.append(item['format_rpm:sourcerpm'])
+        # row.append(item['format_rpm:header-range_@start'])
+        # row.append(item['format_rpm:header-range_@end'])
         data.append(row)
     df = pd.DataFrame(data,columns=headers)
     df.to_csv(pkg_path,index=False)
