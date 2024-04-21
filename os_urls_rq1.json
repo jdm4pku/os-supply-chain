@@ -1,6 +1,7 @@
 {
     "fedora1": { 
         "release-server-os":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Server/{arch}/os/",
+        "release-server-debug":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Server/{arch}/debug/",
         "release-server-debug-tree":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Server/{arch}/debug/tree/",
         "release-server-source-tree":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Server/source/tree/",
         "release-Modular-os":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Modular/{arch}/os/",
@@ -28,16 +29,31 @@
         "release-Everything-os":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Everything/{arch}/os/",
         "release-Everything-debug-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Everything/{arch}/debug/tree/",
         "release-Everything-source-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Everything/source/tree/",
-        "update-Modular-source":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Modular/source/",
         "update-Modular-source-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Modular/source/tree/",
+        "update-Modular-srpms":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Modular/SRPMS/",
         "update-Modular":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Modular/{arch}/",
         "update-Modular-debug":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Modular/{arch}/debug/",
+        "update-Modular-debug-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Modular/{arch}/debug/tree/",
         "update-Everything-source":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Everything/source/",
         "update-Everything-source-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Everything/source/tree/",
         "update-Everything":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Everything/{arch}/",
         "update-Everything-debug":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/Everything/{arch}/debug/"
     },
     "fedora3":{
+        "release-server-os":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Server/{arch}/os/",
+        "release-server-debug":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Server/{arch}/debug/",
+        "release-server-debug-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Server/{arch}/debug/tree/",
+        "release-server-source-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Server/source/tree/",
+        "release-Everything-os":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Everything/{arch}/os/",
+        "release-Everything-debug":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Everything/{arch}/debug/",
+        "release-Everything-debug-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Everything/{arch}/debug/tree/",
+        "release-Everything-source-srpms":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Everything/source/SRPMS/",
+        "release-Everything-source-tree":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Everything/source/tree/",
+        "update":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/x86_64/",
+        "update-srpms":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/SRPMS/",
+        "update-debug":"https://archives.fedoraproject.org/pub/archive/fedora/linux/updates/{ver}/x86_64/debug/"
+    },
+    "fedora4":{
         "Everything-os":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Everything/{arch}/os/",
         "Everything-source-SRPMS":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/{ver}/Everything/source/SRPMS/",
         "Everything-debug":"https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/10/Everything/x86_64/debug/",
