@@ -68,10 +68,13 @@ def __get_name(name_list):
 def __get_group_packs(pack_dict):
     if pack_dict is None:
         return {}
+    # if type(pack_dict) is str:
+
     if not(type(pack_dict) is dict and len(pack_dict.keys()) == 1 and "packagereq" in list(pack_dict.keys())):
         print("==========packagereq key error==========")
         print(pack_dict)
     pack_ret = {}
+    # print(type(pack_dict["packagereq"]))
     if type(pack_dict["packagereq"]) is dict:
         pack_ret[pack_dict["packagereq"]['#text']] = pack_dict["packagereq"]['@type']
         return pack_ret
@@ -82,7 +85,12 @@ def __get_group_packs(pack_dict):
             else:
                 pack_ret[pack_i] = "mandory"
         return pack_ret
+    if type(pack_dict["packagereq"]) is str:
+        name = pack_dict["packagereq"]
+        pack_ret[name] = "mandory"
+        return pack_ret
     print("==========packagereq value error==========")
+    # exit()
     print(pack_dict["packagereq"])
     return None
 
@@ -134,35 +142,35 @@ def get_groups_info(xml_file):
         for i in gslist:
             group_contend = {}
             # print(i)
-            # print("------------------------")
+            # print(f"-----{i['packagelist']}------")
             group_contend['default'] = i['default'] if 'default' in i else "unknown"
             group_contend['description'] = __get_descrip(i['description'])
             group_contend['name'] = __get_name(i['name']) 
             group_contend['packagelist'] = __get_group_packs(i['packagelist'])
             group_contend['uservisible'] = i['uservisible'] if 'uservisible' in i else "unknown"
             os_groups[group_contend['name'][0]] = group_contend
-    if 'category' in xml_root['comps']:
-        os_cate = {}
-        for i in xml_root['comps']['category']:
-            cate_contend = {}
-            cate_contend['description'] = __get_descrip(i['description'])
-            cate_contend['name'] = __get_name(i['name'])
-            cate_contend['grouplist'] = __get_groups(i['grouplist'], 'grouplist')
-            if 'optionlist' in i:
-                cate_contend['grouplist'] = __get_groups(i['optionlist'], 'optionlist', cate_contend['grouplist'])
-            os_cate[cate_contend['name'][0]] = cate_contend
-    if 'environment' in xml_root['comps']:
-        os_env = {}
-        for i in xml_root['comps']['environment']:
-            env_contend = {}
-            if 'description' in i:
-                env_contend['description'] = __get_descrip(i['description'])
-            env_contend['name'] = __get_name(i['name'])
-            if 'grouplist' in i:
-                env_contend['grouplist'] = __get_groups(i['grouplist'], 'grouplist')
-            if 'optionlist' in i:
-                env_contend['grouplist'] = __get_groups(i['optionlist'], 'optionlist', env_contend['grouplist'])
-            os_env[env_contend['name'][0]] = env_contend
+    # if 'category' in xml_root['comps']:
+    #     os_cate = {}
+    #     for i in xml_root['comps']['category']:
+    #         cate_contend = {}
+    #         cate_contend['description'] = __get_descrip(i['description'])
+    #         cate_contend['name'] = __get_name(i['name'])
+    #         cate_contend['grouplist'] = __get_groups(i['grouplist'], 'grouplist')
+    #         if 'optionlist' in i:
+    #             cate_contend['grouplist'] = __get_groups(i['optionlist'], 'optionlist', cate_contend['grouplist'])
+    #         os_cate[cate_contend['name'][0]] = cate_contend
+    # if 'environment' in xml_root['comps']:
+    #     os_env = {}
+    #     for i in xml_root['comps']['environment']:
+    #         env_contend = {}
+    #         if 'description' in i:
+    #             env_contend['description'] = __get_descrip(i['description'])
+    #         env_contend['name'] = __get_name(i['name'])
+    #         if 'grouplist' in i:
+    #             env_contend['grouplist'] = __get_groups(i['grouplist'], 'grouplist')
+    #         if 'optionlist' in i:
+    #             env_contend['grouplist'] = __get_groups(i['optionlist'], 'optionlist', env_contend['grouplist'])
+    #         os_env[env_contend['name'][0]] = env_contend
     return os_groups, os_cate, os_env, os_langp
 
 def save_groups(os_groups,os_path,os_k):
@@ -193,6 +201,7 @@ def merge_groups(all_groups,os_groups):
         for key,item in os_groups.items():
             if key in all_groups:
                 for pkg,pkg_opt in item["packagelist"].items():
+                    # print(all_groups[key])
                     if pkg in all_groups[key]["packagelist"]:
                         continue
                     else:
