@@ -37,8 +37,9 @@ def download_repo_metadata(url: str, path=None, override=False) -> tuple[Any, li
 
     if not _primary or not _filelists:
         os.remove(os.path.join(_repo_path, 'repomd.xml').replace("\\", "/"))
-        raise Exception(
-            "Can't find primary.xml.gz or filelists.xml.gz in {}".format(os.path.join(_repo_path, 'repomd.xml').replace("\\", "/")))
+        return None,None
+        # raise Exception(
+        #     "Can't find primary.xml.gz or filelists.xml.gz in {}".format(os.path.join(_repo_path, 'repomd.xml').replace("\\", "/")))
 
     for url in _hrefs:
         if url.endswith('.xml') or url.endswith('.gz') or url.endswith('.xz') or url.endswith('.bz2'):
