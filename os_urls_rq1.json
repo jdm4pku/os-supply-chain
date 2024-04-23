@@ -1,7 +1,6 @@
 {
     "fedora1": { 
         "release-server-os":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Server/{arch}/os/",
-        "release-server-debug":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Server/{arch}/debug/",
         "release-server-debug-tree":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Server/{arch}/debug/tree/",
         "release-server-source-tree":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Server/source/tree/",
         "release-Modular-os":"https://archives.fedoraproject.org/pub/fedora/linux/releases/{ver}/Modular/{arch}/os/",
