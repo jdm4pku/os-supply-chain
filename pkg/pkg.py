@@ -24,6 +24,9 @@ def get_pkgs_info(xml_file):
     if 'package' in xml_root['metadata']:
         os_pkgs = {}
         for i in xml_root['metadata']['package']:
+            if not isinstance(i,dict):
+                print(i)
+                continue
             pkg_content = {}
             pkg_content['@type'] = i['@type']
             pkg_content['name'] = i['name']
@@ -145,7 +148,9 @@ if __name__== "__main__":
     os_versions = [
         # ("fedora", "x86_64", "38"),
         # ('fedora', 'aarch64', '38'),
-        ('centos', 'x86_64', '7'),
+        # ('centos', 'x86_64', '7'),
+        ('anolis', 'x86_64', '8.8'),
+        ('openCloudOS', 'x86_64', '8'),
     ]
     get_os_pkgs(os_versions,False)
     pass

@@ -69,8 +69,8 @@ def __get_group_packs(pack_dict):
     if pack_dict is None:
         return {}
     # if type(pack_dict) is str:
-
-    if not(type(pack_dict) is dict and len(pack_dict.keys()) == 1 and "packagereq" in list(pack_dict.keys())):
+    if not(type(pack_dict) is dict and "packagereq" in list(pack_dict.keys())):
+    # if not(type(pack_dict) is dict and len(pack_dict.keys()) == 1 and "packagereq" in list(pack_dict.keys())):
         print("==========packagereq key error==========")
         print(pack_dict)
     pack_ret = {}
@@ -141,12 +141,13 @@ def get_groups_info(xml_file):
             print(xml_root['comps']['group'])
         for i in gslist:
             group_contend = {}
+            # print("------------------------------\n")
             # print(i)
             # print(f"-----{i['packagelist']}------")
             group_contend['default'] = i['default'] if 'default' in i else "unknown"
-            group_contend['description'] = __get_descrip(i['description'])
+            group_contend['description'] = __get_descrip(i['description']) if 'description' in i else ""
             group_contend['name'] = __get_name(i['name']) 
-            group_contend['packagelist'] = __get_group_packs(i['packagelist'])
+            group_contend['packagelist'] = __get_group_packs(i['packagelist']) if 'packagelist' in i else {}
             group_contend['uservisible'] = i['uservisible'] if 'uservisible' in i else "unknown"
             os_groups[group_contend['name'][0]] = group_contend
     # if 'category' in xml_root['comps']:
@@ -229,7 +230,9 @@ if __name__=="__main__":
     os_versions = [
         # ("fedora", "x86_64", "38"),
         # ('fedora', 'aarch64', '38'),
-        ('centos', 'x86_64', '7'),
+        # ('centos', 'x86_64', '7'),
+        ('anolis', 'x86_64', '8.8'),
+        ('openCloudOS', 'x86_64', '8'),
     ]
     get_os_groups(os_versions,True)
     pass
