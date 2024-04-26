@@ -119,6 +119,8 @@ def weighted_jaccard_similarity(dict1,dict2):
 
 
 def save_relevant_result(pkg_name_list,cosine_score,path):
+    print(f"---{len(pkg_name_list)}---")
+    print(f"---{cosine_score.shape}")
     sum = 0
     count = 0
     data = []
@@ -183,7 +185,7 @@ def count_pkgnum_eachgroup(all_groups):
 
 def RQ2(os_arch_ver,override=False):
     metas = load_file('./os_urls.json')
-    model = SentenceTransformer("all-MiniLM-L6-v2",device="cuda:5")
+    model = SentenceTransformer("all-MiniLM-L6-v2",device="cuda:3")
     for os_name,os_arch,os_ver in os_arch_ver:
         logger.info(f"-------{os_name}-{os_arch}-{os_ver}------")
         all_groups = None
@@ -319,7 +321,7 @@ def RQ2(os_arch_ver,override=False):
 if __name__=="__main__":
     os_versions = [
         # ("fedora", "x86_64", "38"),
-        # ('fedora', 'aarch64', '38'),
-        ('centos', 'x86_64', '7'),
+        # ('centos', 'x86_64', '7'),
+        ("openEuler", "x86_64", "openEuler-23.09")
     ]
     RQ2(os_versions,False)
