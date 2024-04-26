@@ -1,0 +1,8 @@
+openEuler-20.03-LTS_x86_64,g-51,inpkg-953,tolpkg-15339
+openEuler-20.09_x86_64,g-51,inpkg-949,tolpkg-18500
+openEuler-21.03_x86_64,g-51,inpkg-782,tolpkg-21325
+openEuler-21.09_x86_64,g-51,inpkg-777,tolpkg-23216
+openEuler-22.03-LTS_x86_64,g-52,inpkg-775,tolpkg-23212
+openEuler-22.09_x86_64,g-52,inpkg-768,tolpkg-24986
+openEuler-23.03_x86_64,g-52,inpkg-767,tolpkg-25617
+openEuler-23.09_x86_64,g-52,inpkg-767,tolpkg-27148
