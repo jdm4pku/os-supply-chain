@@ -79,9 +79,18 @@ def __get_group_packs(pack_dict):
         pack_ret[pack_dict["packagereq"]['#text']] = pack_dict["packagereq"]['@type']
         return pack_ret
     if type(pack_dict["packagereq"]) is list:
+        # print("==========")
+        # print(pack_dict["packagereq"][0])
         for pack_i in pack_dict["packagereq"]:
             if '#text' in pack_i:
-                pack_ret[pack_i['#text']] = pack_i['@type']
+                if '@type' in pack_i:
+                    pack_ret[pack_i['#text']] = pack_i['@type']
+                else: # 用来处理anolis中的一个特殊情况
+                    """
+                    {'@type': 'mandatory', '#text': 'adwaita-qt'}
+                    {'@variant': 'BaseOS', '#text': 'atlas-devel'}
+                    """
+                    pack_ret[pack_i['#text']] = "mandory"
             else:
                 pack_ret[pack_i] = "mandory"
         return pack_ret
@@ -119,6 +128,7 @@ def __get_groups(grouplist, group_val, init_groupdict=None):
 
 
 def get_groups_info(xml_file):
+    # xml_file = "/home/jindongming/project/1-OsSupplyChain/os-supply-chain/rq1-data/anolis_8_PowerTools_x86_64_os/repodata/2b13cd3f9d81647fd31aa16de1b16b582efd9566f8c4334e4561a030f3777c37-comps-PowerTools.x86_64.xml"
     xml_root = XMLParser.parsefile(xml_file)
     if xml_root is None:
         return None, None, None, None
@@ -129,6 +139,8 @@ def get_groups_info(xml_file):
     # else:
     #     return None, None, None, None
     os_groups, os_cate, os_env, os_langp = None, None, None, None
+    if xml_root['comps']==None:
+        return os_groups, os_cate, os_env, os_langp
     if 'group' in xml_root['comps']:
         os_groups = {}
         gslist = []
@@ -234,5 +246,5 @@ if __name__=="__main__":
         ('anolis', 'x86_64', '8.8'),
         ('openCloudOS', 'x86_64', '8'),
     ]
-    get_os_groups(os_versions,True)
+    get_os_groups(os_versions,False)
     pass
