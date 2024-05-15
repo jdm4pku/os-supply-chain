@@ -58,6 +58,16 @@ def compute_change_inpkg(pre_inpkg,all_inpkg):
 def compute_change_group(pre_group,all_groups):
     add_group = []
     delete_group = []
+    if all_groups==None:
+        add_group = []
+        for key,value in pre_group.items():
+            delete_group.append(
+                {
+                    "group":key,
+                    "description":value['description']
+                }
+            )
+        return add_group,delete_group
     for key,value in all_groups.items():
         if key not in pre_group:
             add_group.append(
@@ -77,7 +87,7 @@ def compute_change_group(pre_group,all_groups):
     return add_group,delete_group
 
 
-def get_group_topic(change_group):
+def get_group_topic(change_group,type):
     pass
 
 
@@ -116,30 +126,55 @@ def get_json_key(os_name,os_ver):
         else:
             jsonkey = "openEuler2"
         return jsonkey
+    elif os_name=="anolis":
+        # todo ver 23,23.0 and 23.1
+        if os_ver in ['7.7','7.9']:
+            jsonkey = "anolis1"
+        elif os_ver in ['8','8.2','8.4','8.6','8.8','8.9']:
+            jsonkey = "anolis2"
+        return jsonkey
+    elif os_name=="opencloudos":
+        if os_ver in ['8','8.8']:
+            jsonkey = "openCloudOS1"
+        elif os_ver in ['8.5']:
+            jsonkey = "openCloudOS2"
+        elif os_ver in ['8.6']:
+            jsonkey = "openCloudOS3"
+        elif os_ver in ['9','9.0']:
+            jsonkey = "openCloudOS4"
+        elif os_ver in ['7']:
+            jsonkey = "openCloudOS5"
+        return jsonkey
 
 def get_ver_list(os_name):
     if os_name=="centos":
-        # os_ver_list = ['3.7','3.8','3.9']
-        # os_ver_list = ['3.9']
-        # os_ver_list = ['6.7','6.8','6.9']
-        os_ver_list = ['7','8']
-        # for major in range(6,7):
-        #     if major==5:
-        #         major_end = 11
-        #     elif major==6:
-        #         major_end = 10
-        #     else:
-        #         major_end = 9
-        #     for minor in range(0,major_end+1):
-        #         os_ver_list.append(f"{major}.{minor}")
+        os_ver_list = ['3.7','3.8','3.9']
+        for major in range(4,7):
+            if major==5:
+                major_end = 11
+            elif major==6:
+                major_end = 9
+            else:
+                major_end = 9
+            for minor in range(0,major_end+1):
+                os_ver_list.append(f"{major}.{minor}")
+        other_ver = ['7']
         # other_ver = ['7','7.0.1406','7.1.1503','7.2.1511','7.3.1611','7.4.1708','7.5.1804','7.6.1810','7.7.1908','7.8.2003','7.9.2009','8','8-stream','8.0.1905','8.1.1911','8.2.2004','8.3.2011','8.4.2105','8.5.2111']
-        # os_ver_list.extend(other_ver)
+        os_ver_list.extend(other_ver)
         return os_ver_list
     elif os_name == "fedora":
         os_ver_list = [str(i) for i in range(7,40)]
         return os_ver_list
     elif os_name == "openEuler":
         os_ver_list = ["openEuler-20.03-LTS","openEuler-20.09","openEuler-21.03","openEuler-21.09","openEuler-22.03-LTS","openEuler-22.09","openEuler-23.03","openEuler-23.09"]
+        return os_ver_list
+    elif os_name == "anolis":
+        # todo: "23","23.0","23.1"
+        #"7.7","7.9" "8","8.2"
+        os_ver_list = ["8.4","8.6","8.8","8.9"]
+        return os_ver_list
+    elif os_name == "opencloudos":
+        os_ver_list = ["7","8","8.5","8.6","8.8","9","9.0"]
         return os_ver_list
 def rq1_count_analysis(os_arch_ver,override=False):
     metas = load_file('./os_urls_rq1.json')
@@ -346,7 +381,7 @@ if __name__=="__main__":
     # os_ver_list = [str(i) for i in range(21,40)]
     # os_ver_list = [str(i) for i in range(7,40)]
     # os_ver_list = [str(i) for i in range(9,10)]
-    os_name = "openEuler"
+    os_name = "openclouds"
     os_arch_list = ['x86_64']
     os_ver_list = get_ver_list(os_name)
     os_versions = []
